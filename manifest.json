@@ -1,0 +1,13 @@
+{
+  "name": "KaisX AI — AI Agent Company",
+  "short_name": "KaisX",
+  "description": "Công ty AI Agent chạy trong trình duyệt.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#3b82f6",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

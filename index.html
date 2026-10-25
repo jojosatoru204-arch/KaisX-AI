@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KaisX AI — AI Agent Company</title>
+<meta name="description" content="Công ty AI Agent chạy hoàn toàn trong trình duyệt.">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KaisX">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon.svg">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+<script src="https://js.puter.com/v2/" defer></script>
+</head>
+<body>
+<div id="app">
+
+  <header id="topbar">
+    <div class="brand">
+      <img class="logo" src="./icon.svg" alt="KaisX" width="36" height="36">
+      <div class="brand-text">
+        <h1>KaisX AI</h1>
+        <span class="subtitle">Autonomous Agent Company</span>
+      </div>
+    </div>
+    <div class="header-stats" id="headerStats"></div>
+    <div class="header-actions">
+      <button id="installBtn" class="icon-btn hidden" title="Cài app">⬇️</button>
+      <button id="themeBtn" class="icon-btn" title="Đổi theme">🌙</button>
+      <button id="settingsBtn" class="icon-btn" title="Cài đặt">⚙️</button>
+      <button id="resetBtn" class="icon-btn" title="Reset">↺</button>
+    </div>
+  </header>
+
+  <aside id="sidebar">
+    <div class="panel-title">Tổ chức</div>
+    <div id="orgChart" class="org-chart"></div>
+    <div class="panel-title" style="margin-top:20px">Số liệu</div>
+    <div id="metrics" class="metrics"></div>
+  </aside>
+
+  <main id="main">
+    <section id="command">
+      <div class="command-header">
+        <h2>Trung tâm điều khiển</h2>
+        <span id="statusBadge" class="badge idle">● Chờ</span>
+      </div>
+      <div class="command-box">
+        <textarea id="taskInput" placeholder="Giao việc cho công ty… ví dụ: 'Nghiên cứu xu hướng AI agent và thiết kế landing page + chiến dịch ra mắt'"></textarea>
+        <div class="command-actions">
+          <div class="quick-tasks">
+            <button class="chip" data-task="Build a landing page for our AI product and create a launch campaign">🚀 Ra mắt SP</button>
+            <button class="chip" data-task="Research the latest trends in AI agents using web search and write a report">🔬 Nghiên cứu</button>
+            <button class="chip" data-task="Translate our product pitch to Vietnamese and design a poster image for it">🌐 Dịch + Thiết kế</button>
+          </div>
+          <button id="runBtn" class="run-btn">Chạy công ty →</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="activity">
+      <div class="activity-header">
+        <h2>Hoạt động</h2>
+        <span id="feedCount" class="muted">0 tin nhắn</span>
+      </div>
+      <div id="feed" class="feed">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">🏢</div>
+          <h3>Công ty AI KaisX đã sẵn sàng</h3>
+          <p>Giao việc ở trên. Công ty sẽ lập kế hoạch, phân công, thực thi, kiểm duyệt và báo cáo lại — tất cả trong trình duyệt của bạn.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside id="skillsPanel">
+    <div class="panel-title">Kỹ năng</div>
+    <div id="skillsList" class="skills-list"></div>
+    <div class="panel-title" style="margin-top:20px">Công cụ (ReAct)</div>
+    <div id="toolsList" class="skills-list"></div>
+    <div class="panel-title" style="margin-top:20px">GitHub Hot Skills</div>
+    <div id="githubSkills" class="github-skills"></div>
+  </aside>
+
+</div>
+
+<div id="settingsModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Cài đặt AI</h2>
+      <button id="closeSettings" class="icon-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="field">
+        <span>Provider</span>
+        <select id="providerSelect">
+          <option value="pollinations">Pollinations.AI — Miễn phí, không cần key</option>
+          <option value="puter">Puter.js — Miễn phí, cần đăng nhập</option>
+          <option value="custom">Custom OpenAI-compatible (BYOK)</option>
+        </select>
+      </label>
+      <div id="customFields" class="hidden">
+        <label class="field"><span>Base URL</span><input id="baseUrlInput" placeholder="https://openrouter.ai/api/v1"></label>
+        <label class="field"><span>API Key</span><input id="apiKeyInput" type="password" placeholder="sk-…"></label>
+        <label class="field"><span>Model</span><input id="modelInput" placeholder="openai/gpt-4o-mini"></label>
+      </div>
+      <label class="field" id="pollinationsModelField">
+        <span>Model</span>
+        <select id="pollinationsModel">
+          <option value="openai">OpenAI (mặc định)</option>
+          <option value="mistral">Mistral</option>
+          <option value="llama">Llama</option>
+          <option value="deepseek">DeepSeek</option>
+        </select>
+      </label>
+      <label class="field checkbox-field">
+        <input type="checkbox" id="useToolsToggle">
+        <span>Bật tool use (ReAct) — chậm hơn nhưng thông minh hơn. Agent có thể search web, dịch, tính toán, tạo ảnh.</span>
+      </label>
+      <p class="hint">🔒 Key lưu trong localStorage trình duyệt, không gửi lên server nào của mình.</p>
+    </div>
+    <div class="modal-footer">
+      <button id="saveSettings" class="run-btn">Lưu</button>
+    </div>
+  </div>
+</div>
+
+<script src="./app.js"></script>
+</body>
+</html>
